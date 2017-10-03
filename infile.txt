@@ -1,0 +1,6 @@
+Herold, Jill     1     2234 123 Main St.      Washington, DC   20019 F yoga facebook 1 2
+Jackson, Stan    2     3748 12 Douglas Ave.   Baltimore, MD    30229 M sports movies 2 4
+Jerry, Francis   3     6666 2345 6th Street   Woodbridge, VA   44040 M movies roadtrips 1 1
+Joan, Wilson     4     1234 12 Georgia Ave.   Washington, DC   20019 F romance dining 2 3
+Smith, Stanley   5     3456 56 D Street       Baltimore, MD    30229 M movies dining 2 1
+Claire, Claude  6     2311 66 32nd Street    Woodbridge, VA   44040 F cooking facebook 1 1
