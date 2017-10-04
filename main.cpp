@@ -1,12 +1,8 @@
-//ifndef PERSONTYPE_H
-//#define PERSONTYPE_H_H
-
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <vector>
 using namespace std;
-
 
 
 class addressType
@@ -176,11 +172,12 @@ void print(NODE *members)
 {
 
    NODE *current = members;
+   int count = 1;
 
     while (current != NULL)
     {
 
-        cout << current->member.personNum << ". " << current->member.fullName() << endl;
+        cout << count << ". " << current->member.fullName() << endl;
         cout << "Personal ID: " << current->member.personID<< endl;
         cout << "Membership Status: " << current->member.membership_status << endl;
         cout << "Membership Type: " << current->member.membership_type << endl;
@@ -188,18 +185,21 @@ void print(NODE *members)
         cout << current->member.address.getFullAddress() << endl;
         cout << endl;
         current = current->next;
+        ++ count;
     }
 }
 
-//#endif
+
 int main()
 {
 
-   //tenporary memberType
+   //temporary memberType
    membershipType member_tmp;
    NODE* head;
 
    string x, i1, i2;
+
+   int count = 0;
 
    ifstream myfile;
    myfile.open("infile.txt");
@@ -219,24 +219,64 @@ int main()
            head->member = member_tmp;
            head->next = NULL;
        }
+
        else
        {
+
            NODE *newMember;
            newMember = new NODE;
            newMember->member = member_tmp;
            newMember->next = NULL;
+           
            NODE *prev = NULL;
            NODE *current = head;
-           
-           while (current != NULL)
+
+
+           //newMember is less than head so insert at beginning of list
+           if (newMember->member.firstName < current->member.firstName)
            {
-               prev = current;
-               current = current->next;
-               if (current == NULL)
-               {
-                   prev->next = newMember;
-               }
-           }     
+               NODE *temp = current;
+               head = newMember;
+               head->next = temp;
+           }
+
+
+           //quickly add at end of 1 member list if newMember is more than head
+           else if (current->next == NULL && newMember->member.firstName > current->member.firstName)
+           {
+               current->next = newMember;
+            }
+        
+
+            //newMember is not less than head so needs to be inserted somewhere AFTER head between two existing members
+            else  {
+                 while (current != NULL){
+
+                    if (newMember->member.firstName > current->member.firstName)
+                    {
+                        //insert between list
+                        if (current->next != NULL && newMember->member.firstName < current -> next ->member.firstName)
+                        {
+
+                            NODE *temp = current -> next;
+                            current->next = newMember;
+                            newMember ->next = temp;
+                        }
+
+                        //insert at end of list
+                        if (current->next == NULL)
+                        {
+                            NODE *temp = current->next;
+                            current->next = newMember;
+                            newMember->next = temp;
+                        }
+                    }
+                    current = current->next;
+                }
+
+            }
+    
+
        }
 
     } // end of for loop
@@ -252,33 +292,33 @@ int main()
 
 Output
 
-1. Jill Herold
-Personal ID: 2234
-Membership Status: 2
+1. Claude Claire
+Personal ID: 2311
+Membership Status: 1
 Membership Type: 1
-Interests: yoga, facebook
-123 Main St. Washington, DC 20019
+Interests: cooking, facebook
+66 32nd Street Woodbridge, VA 44040
 
-2. Stan Jackson
-Personal ID: 3748
-Membership Status: 4
-Membership Type: 2
-Interests: sports, movies
-12 Douglas Ave. Baltimore, MD 30229
-
-3. Francis Jerry
+2. Francis Jerry
 Personal ID: 6666
 Membership Status: 1
 Membership Type: 1
 Interests: movies, roadtrips
 2345 6th Street Woodbridge, VA 44040
 
-4. Wilson Joan
-Personal ID: 1234
-Membership Status: 3
+3. Jill Herold
+Personal ID: 2234
+Membership Status: 2
+Membership Type: 1
+Interests: yoga, facebook
+123 Main St. Washington, DC 20019
+
+4. Stan Jackson
+Personal ID: 3748
+Membership Status: 4
 Membership Type: 2
-Interests: romance, dining
-12 Georgia Ave. Washington, DC 20019
+Interests: sports, movies
+12 Douglas Ave. Baltimore, MD 30229
 
 5. Stanley Smith
 Personal ID: 3456
@@ -287,11 +327,11 @@ Membership Type: 2
 Interests: movies, dining
 56 D Street Baltimore, MD 30229
 
-6. Claude Claire
-Personal ID: 2311
-Membership Status: 1
-Membership Type: 1
-Interests: cooking, facebook
-66 32nd Street Woodbridge, VA 44040
+6. Wilson Joan
+Personal ID: 1234
+Membership Status: 3
+Membership Type: 2
+Interests: romance, dining
+12 Georgia Ave. Washington, DC 20019
 
 */
